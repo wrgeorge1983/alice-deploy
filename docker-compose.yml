@@ -19,7 +19,13 @@ services:
      - ./etc/alice-lg:/etc/alice-lg
 
   bgp:
-    image: jauderho/gobgp:latest
+    # image: jauderho/gobgp:latest
+    build:
+      context: .
+      dockerfile: gobgp.Dockerfile
+      args:
+        BUILD_VERSION: v3.26.0
+        ARCHIVE_URL: https://github.com/osrg/gobgp/archive
 
     ports:
       - "179:179"

@@ -5,3 +5,10 @@ this is meant to be a small deployable service you can run multiple instances of
 ## USAGE
 
 rename/customize gobgpd.yml.example and etc/alice-lg/alice.conf.example
+
+## CREDITS
+
+organized in this repo by William George
+
+Based in large part on the work of Jauder Ho <jauderho@users.noreply.github.com> at https://github.com/jauderho/dockerfiles
+
