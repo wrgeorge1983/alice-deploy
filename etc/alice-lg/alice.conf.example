@@ -1,0 +1,107 @@
+[server]
+listen_http = 0.0.0.0:7340
+
+enable_prefix_lookup = true
+
+
+[housekeeping]
+# Interval for the housekeeping routine in minutes
+interval = 5
+# Try to release memory via a forced GC/SCVG run on every housekeeping run
+force_release_memory = true
+
+
+[pagination]
+# Routes tables can be paginated, which comes in handy with
+# peers announcing a lot of routes. Set to 0 to disable
+# pagination.
+routes_filtered_page_size = 250
+routes_accepted_page_size = 250
+routes_not_exported_page_size = 250
+
+[rejection_reasons]
+# a pair of a large BGP community value and a string to signal the processing
+# results of route filtering
+9033:65666:1 = An IP Bogon was detected
+9033:65666:2 = Prefix is longer than 64
+9033:65666:3 = Prefix is longer than 24
+9033:65666:4 = AS path contains a bogon AS
+9033:65666:5 = AS path length is longer than 64
+9033:65666:6 = First AS in path is not the same as the Peer AS
+9033:65666:7 = ECIX prefix hijack
+9033:65666:8 = Origin AS not found in IRRDB for Peer AS-SET
+9033:65666:9 = Prefix not found in IRRDB for Origin AS
+9033:65666:10 = Advertised nexthop address is not the same as the peer
+
+23:42:1 = Some made up reason
+
+
+# Define other known bgp communities
+[bgp_communities]
+1:23 = some tag
+9033:65666:1 = ip bogon detected
+# Wildcards are supported aswell:
+0:* = do not redistribute to AS$1
+
+#
+# Define columns for neighbors and routes table,
+# with <key> = <Table Header>
+#
+# and <key> := <object.path> Implicitly referencing the object,
+#                            e.g. route.bgp.as_path -> bgp.as_path)
+#           |= <Widget>      A widget with special rendering features,
+#                            to which the object is applied. E.g.
+#                            Uptime, which will be rendered as
+#                            Uptime(neighbor).
+#
+# As per convention: Widgets are in Uppercase, object properties are
+# in lowercase.
+#
+# Available Widgets for Neighbors:
+#
+# Uptime        Displays the relative uptime of this neighbor
+# Description   The neighbor's description with link to routes page
+#
+
+[neighbors_columns]
+address = Neighbor
+asn = ASN
+state = State
+Uptime = Uptime
+Description = Description
+routes_received = Routes Received
+routes_filtered = Filtered
+
+# 
+
+[routes_columns]
+flags = 
+network = Network
+gateway = Gateway
+interface = Interface
+metric = Metric
+bgp.as_path = AS Path
+
+
+[lookup_columns]
+flags = 
+network = Network
+gateway = Gateway
+neighbor.asn = ASN
+neighbor.description = Description
+bgp.as_path = AS Path
+routeserver.name = RS
+
+
+
+[source.bgp]
+name = bgp
+group = AMS
+
+[source.bgp.gobgp]
+# Host is the IP (or DNS name) and port for the remote GoBGP daemon
+host = bgp:50051
+# ProcessingTimeout is a timeout in seconds configured per gRPC call to a given GoBGP daemon
+processing_timeout = 300
+insecure = true
+

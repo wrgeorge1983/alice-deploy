@@ -1,0 +1,10 @@
+global:
+  config:
+    as: 65000
+    router-id: 10.0.0.1
+    port: 179
+
+neighbors:
+  - config:
+      neighbor-address: 10.0.1.100
+      peer-as: 65000

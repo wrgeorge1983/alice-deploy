@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: alice.Dockerfile
+      args:
+        BUILD_VERSION: 6.1.0.161-test
+        ARCHIVE_URL: https://github.com/wrgeorge1983/alice-lg/archive
+    
+    environment:
+      DANGEROUSLY_DISABLE_HOST_CHECK: "true"
+    ports:
+      - "7340:7340"
+    networks:
+      - gobgpNetwork
+    volumes:
+     - ./etc/alice-lg:/etc/alice-lg
+
+  bgp:
+    image: jauderho/gobgp:latest
+
+    ports:
+      - "179:179"
+      - "50051:50051"
+    volumes:
+      - ./gobgpd.yml:/etc/gobgpd/gobgpd.yml
+    command: ["gobgpd", "-t", "yaml", "-f", "/etc/gobgpd/gobgpd.yml"]
+    networks:
+      - gobgpNetwork
+
+
+networks:
+
+  gobgpNetwork:
+    name: "gobgpNetwork"
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.59.0/24
