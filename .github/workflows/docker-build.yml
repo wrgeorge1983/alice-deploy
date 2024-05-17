@@ -68,9 +68,9 @@ jobs:
           # target: runtime
           # platforms: linux/amd64,linux/arm/v7
           push: true
-          args:
-            BUILD_VERSION: ${{ steps.dotenv.outputs.ALICE_VERSION }}
-            ARCHIVE_URL: ${{ steps.dotenv.outputs.ALICE_ARCHIVE_URL }}
+          build-args: |
+            BUILD_VERSION=${{ steps.dotenv.outputs.ALICE_VERSION }}
+            ARCHIVE_URL=${{ steps.dotenv.outputs.ALICE_ARCHIVE_URL }}
           tags: |
             ${{ steps.metajob_alice.outputs.tags }}
             ${{ env.ALICE_IMAGE_NAME }}:latest
@@ -89,7 +89,7 @@ jobs:
             type=raw,value=${{ steps.dotenv.outputs.GOBGP_VERSION }}
 
       - name: build container - GoBGP
-        uses: docker/build-push-action@v2
+        uses: docker/build-push-action@v5
         env:
           GOBGP_IMAGE_NAME: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_GOBGP }}
         with:
@@ -98,9 +98,9 @@ jobs:
           # target: runtime
           # platforms: linux/amd64,linux/arm/v7
           push: true
-          args:
-            BUILD_VERSION: ${{ steps.dotenv.outputs.GOBGP_VERSION }}
-            ARCHIVE_URL: ${{ steps.dotenv.outputs.GOBGP_ARCHIVE_URL }}
+          build-args: |
+            BUILD_VERSION=${{ steps.dotenv.outputs.GOBGP_VERSION }}
+            ARCHIVE_URL=${{ steps.dotenv.outputs.GOBGP_ARCHIVE_URL }}
           tags: |
             ${{ steps.metajob_gobgp.outputs.tags }}
             ${{ env.GOBGP_IMAGE_NAME }}:latest
