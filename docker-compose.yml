@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: alice.Dockerfile
       args:
-        BUILD_VERSION: 6.1.0.161-test
+        BUILD_VERSION: 6.1.0.fix_status
         ARCHIVE_URL: https://github.com/wrgeorge1983/alice-lg/archive
     
     environment:
@@ -31,8 +31,17 @@ services:
       - "179:179"
       - "50051:50051"
     volumes:
-      - ./gobgpd.yml:/etc/gobgpd/gobgpd.yml
-    command: ["gobgpd", "-t", "yaml", "-f", "/etc/gobgpd/gobgpd.yml"]
+      - ./gobgpd.yml:/config/input_gobgpd.yml
+    # command: ["gobgpd", "-t", "yaml", "-f", "/etc/gobgpd/gobgpd.yml"]
+    command: ["gobgpEntrypoint"]
+    environment:
+      INPUT_CONFIG_FILE: /config/input_gobgpd.yml
+      OUTPUT_CONFIG_FILE: /config/gobgpd.yml
+      GOBGPD_PATH: gobgpd
+      LOCAL_AS: 65000
+      ROUTER_ID: 192.168.32.69
+      # PEER1_ADDRESS: 192.168.1.1
+      # PEER1_AS: 65000
     networks:
       - gobgpNetwork
 

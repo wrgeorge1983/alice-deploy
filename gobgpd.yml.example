@@ -1,10 +1,13 @@
+# local as, router id, peer as and peers should probably be configured via envvar
+
 global:
   config:
-    as: 65000
-    router-id: 10.0.0.1
+#    as: 65000
+#    router-id: 10.0.0.1
     port: 179
 
-neighbors:
-  - config:
-      neighbor-address: 10.0.1.100
-      peer-as: 65000
+neighbors: []
+#neighbors:
+#  - config:
+#      neighbor-address: 10.0.1.100
+#      peer-as: 65000
