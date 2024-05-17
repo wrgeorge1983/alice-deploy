@@ -94,7 +94,7 @@ jobs:
           GOBGP_IMAGE_NAME: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY_GOBGP }}
         with:
           context: .
-          file: alice.Dockerfile
+          file: gobgp.Dockerfile
           # target: runtime
           # platforms: linux/amd64,linux/arm/v7
           push: true
