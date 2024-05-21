@@ -37,16 +37,20 @@ COPY --from=source /app /src/alice-lg
 COPY --from=ui-build /app/ui/build ui/build
 
 WORKDIR /src/alice-lg/cmd/alice-lg
-RUN make alpine
+RUN sed -i '/^alpine:/,/$(PROG)-linux-$(ARCH)/ s/go build/go build -tags timetzdata/' Makefile && \
+    make alpine && \
+    cat Makefile
+# RUN make alpine
 
 
 
 
-FROM alpine:latest
+# FROM alpine:latest
+FROM scratch
 
-RUN apk add -U tzdata
+# RUN apk add -U tzdata
 COPY --from=backend /src/alice-lg/cmd/alice-lg/alice-lg-linux-amd64 /usr/bin/alice-lg
-RUN ls -lsha /usr/bin/alice-lg
+# RUN ls -lsha /usr/bin/alice-lg
 
 EXPOSE 7340:7340
 
