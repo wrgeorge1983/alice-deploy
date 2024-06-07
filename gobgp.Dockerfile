@@ -55,6 +55,7 @@ COPY --from=build /go/src/github.com/osrg/gobgp/gobgpd /usr/local/bin/
 COPY --from=build --chown=nobody:nogroup /config /config
 
 COPY --from=entrypoint-build /gobgpEntrypoint /usr/local/bin/
+COPY --from=entrypoint-build  --chown=nobody:nobody /go/src/github.com/wrgeorge1983/alice-deploy/gobgpEntrypoint/gobgpd_empty.yml /config/
 
 EXPOSE 179
 USER nobody
