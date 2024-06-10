@@ -53,6 +53,6 @@ COPY --from=backend /src/alice-lg/cmd/alice-lg/alice-lg-linux-amd64 /usr/bin/ali
 # RUN ls -lsha /usr/bin/alice-lg
 ADD etc/alice-lg /etc/alice-lg
 
-EXPOSE 7340:7340
+EXPOSE 80:80
 
 CMD ["/usr/bin/alice-lg"]
