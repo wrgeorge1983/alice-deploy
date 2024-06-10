@@ -51,6 +51,7 @@ FROM scratch
 # RUN apk add -U tzdata
 COPY --from=backend /src/alice-lg/cmd/alice-lg/alice-lg-linux-amd64 /usr/bin/alice-lg
 # RUN ls -lsha /usr/bin/alice-lg
+ADD etc/alice-lg /etc/alice-lg
 
 EXPOSE 7340:7340
 
