@@ -58,7 +58,7 @@ COPY --from=entrypoint-build /gobgpEntrypoint /usr/local/bin/
 COPY --from=entrypoint-build  --chown=nobody:nobody /go/src/github.com/wrgeorge1983/alice-deploy/gobgpEntrypoint/gobgpd_empty.yml /config/
 
 EXPOSE 179
-USER nobody
+# USER nobody  # can't deploy on fargate with user nobody and using a port < 1024
 
 #ENTRYPOINT ["/usr/local/bin/gobgpd"]
 #CMD ["-f", "/config/gobgp.toml"]
