@@ -43,6 +43,7 @@ type GoBgpConfig struct {
 		Config NeighborConfig         `yaml:"config"`
 		Extras map[string]interface{} `yaml:",inline"`
 	} `yaml:"neighbors"`
+	Extras map[string]interface{} `yaml:",inline"`
 }
 
 func main() {

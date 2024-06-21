@@ -2,4 +2,22 @@ global:
   config:
     port: 179
 
+defined-sets:
+  prefix-sets:
+    - prefix-set-name: "all-prefixes"
+      prefix-list:
+        - ip-prefix: "0.0.0.0/0"
+          masklength-range: "0..32"
+
+policy-definitions:
+  - name: "deny-all"
+    statements:
+      - name: "deny-all"
+        conditions:
+          match-prefix-set:
+            prefix-set: "all-prefixes"
+            match-set-options: "ANY"
+        actions:
+          route-disposition: "reject-route"
+
 neighbors: []
