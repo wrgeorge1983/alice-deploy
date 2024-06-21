@@ -1,6 +1,11 @@
 global:
   config:
     port: 179
+  apply-policy:
+    config:
+      export-policy-list: ["deny-all"]
+      default-import-policy: "accept-route"
+      default-export-policy: "reject-route"
 
 defined-sets:
   prefix-sets:
