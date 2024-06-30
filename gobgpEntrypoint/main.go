@@ -37,7 +37,8 @@ type NeighborConfig struct {
 
 type GoBgpConfig struct {
 	Global struct {
-		Config GlobalConfig `yaml:"config"`
+		Config GlobalConfig           `yaml:"config"`
+		Extras map[string]interface{} `yaml:",inline"`
 	} `yaml:"global"`
 	Neighbors []struct {
 		Config NeighborConfig         `yaml:"config"`
