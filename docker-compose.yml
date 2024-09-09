@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: alice.Dockerfile
       args:
-        BUILD_VERSION: 6.1.0.fix_status
+        BUILD_VERSION: 6.1.0.order_gobgp_routes
         ARCHIVE_URL: https://github.com/wrgeorge1983/alice-lg/archive
 
     environment:
