@@ -1,4 +1,4 @@
-FROM debian:stable-slim as source 
+FROM debian:stable-slim AS source 
 
 ARG BUILD_VERSION
 ARG ARCHIVE_URL=https://github.com/alice-lg/alice-lg/archive
@@ -15,7 +15,7 @@ RUN test -n "${BUILD_VERSION}" \
 
 
 
-FROM node:latest as ui-build
+FROM node:latest AS ui-build
 
 COPY --from=source /app/ui /app/ui
 
@@ -25,7 +25,7 @@ RUN cd /app/ui \
 
 
 
-FROM golang:1.21 as backend 
+FROM golang:1.21 AS backend 
 
 WORKDIR /src/alice-lg
 COPY --from=source /app/go.mod .

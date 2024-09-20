@@ -29,6 +29,16 @@ type GlobalConfig struct {
 	Port     int    `yaml:"port"`
 }
 
+type AfiSafiConfig struct {
+	AfiSafiName string                 `yaml:"afi-safi-name"`
+	Extras      map[string]interface{} `yaml:",inline"`
+}
+
+type AfiSafi struct {
+	Config AfiSafiConfig         `yaml:"config"`
+	Extras      map[string]interface{} `yaml:",inline"`
+}
+
 type NeighborConfig struct {
 	NeighborAddress string                 `yaml:"neighbor-address"`
 	PeerAs          int                    `yaml:"peer-as"`
@@ -42,6 +52,7 @@ type GoBgpConfig struct {
 	} `yaml:"global"`
 	Neighbors []struct {
 		Config NeighborConfig         `yaml:"config"`
+		AfiSafis []AfiSafi            `yaml:"afi-safis"`
 		Extras map[string]interface{} `yaml:",inline"`
 	} `yaml:"neighbors"`
 	Extras map[string]interface{} `yaml:",inline"`
@@ -106,15 +117,31 @@ func main() {
 		}
 		log.Printf("Adding Peer %d: %s, AS %d\n", i, peerAddress, peerAs)
 		neigh := struct {
-			Config NeighborConfig         `yaml:"config"`
-			Extras map[string]interface{} `yaml:",inline"`
+			Config   NeighborConfig `yaml:"config"`
+			AfiSafis []AfiSafi      `yaml:"afi-safis"`
+			Extras   map[string]interface{} `yaml:",inline"`
 		}{
-			NeighborConfig{
+			Config: NeighborConfig{
 				NeighborAddress: peerAddress,
 				PeerAs:          peerAs,
 			},
-			map[string]interface{}{},
+			AfiSafis: []AfiSafi{
+				{
+					Config: AfiSafiConfig{
+						AfiSafiName: "ipv4-unicast",
+					},
+					Extras: map[string]interface{}{},
+				},
+				{
+					Config: AfiSafiConfig{
+						AfiSafiName: "ipv6-unicast",
+					},
+					Extras: map[string]interface{}{},
+				},
+			},
+			Extras: map[string]interface{}{},
 		}
+		
 		config.Neighbors = append(config.Neighbors, neigh)
 	}
 
